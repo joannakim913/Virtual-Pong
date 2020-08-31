@@ -1,0 +1,80 @@
+import pygame
+from random import randint
+pygame.init()
+win = pygame.display.set_mode((700,500))
+
+# Ball
+x = 350
+y = 250
+xvel = 2 if randint(0,1) == 0 else -2
+yvel = 2 if randint(0,1) == 0 else -2
+
+# Paddles
+p1y = 200
+player2 = 200 
+
+while 1+1==2:
+  #draws a frame
+  #iteration 
+  win.fill((0,0,0))
+  pygame.time.delay(5)
+
+  x = x + xvel
+  y = y + yvel
+
+  pygame.event.pump()
+  keys = pygame.key.get_pressed()
+  if keys[pygame.K_UP]:
+    p1y = p1y - 5
+  if keys[pygame.K_DOWN]:
+    p1y = p1y + 5
+
+  
+  
+  #AI
+  if y < player2:
+    player2 = player2 - 5
+  if y > player2:
+    player2 = player2 + 5  
+
+
+  print("value of p1y is:",p1y)
+
+  # drawing the ball
+  pygame.draw.circle(win, (255,255,255), (int(x),int(y)), 20)
+
+  # drawing the paddle
+  pygame.draw.rect(win, (255,255,255), (680, p1y, 20, 100))
+
+  pygame.draw.rect(win, (255,255,255), (0, player2 ,20 , 100))
+
+  # drawing the borders
+  pygame.draw.line(win, (255,255,255), (699,0),(699,500))
+  pygame.draw.line(win, (255,255,255), (0,499),(700,499))
+
+  # border detection
+  if y > 500:
+    yvel = yvel * -1
+
+  if 700 > x > 670 and p1y < y < p1y + 100:
+    xvel = xvel * -1.2
+
+  if y < 0:
+    yvel = yvel * -1
+
+  if x < 30 and player2 < y < player2 + 100:
+    xvel = xvel * -1.2    
+
+  if p1y < 0:
+    p1y = 0
+
+  if p1y > 400:
+    p1y = 400
+
+  if player2 < 0:
+    player2 = 0
+
+  if player2 > 400:
+    player2 = 400  
+
+  pygame.display.update()  
